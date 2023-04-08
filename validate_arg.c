@@ -6,7 +6,7 @@
 /*   By: mkiflema <mkiflema@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/29 09:57:31 by mkiflema          #+#    #+#             */
-/*   Updated: 2023/03/29 18:28:19 by mkiflema         ###   ########.fr       */
+/*   Updated: 2023/04/08 16:28:51 by mkiflema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,8 +66,8 @@ int	is_map_rectangular(char *map)
 		else if (holder != 0 && holder != width)
 			return (0);
 	}
-	if (height == width)
-		return (0);
+	// if (height == width)
+	// 	return (0);
 	return (1);
 }
 
@@ -122,6 +122,9 @@ void	display_message(int value)
 		ft_putstr("Error\nstart or exit are dublicated!");
 	else if (value == 4)
 		ft_putstr("Error\ngame should have at leat one collectable!");
+	else if (value == 5)
+		ft_putstr("Error\nmap is not rectangular!");
+	else if (value == 6)
+		ft_putstr("Error\npath is not valid!");
 	exit(0);
 }
-

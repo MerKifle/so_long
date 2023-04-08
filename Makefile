@@ -6,13 +6,13 @@
 #    By: mkiflema <mkiflema@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/03/24 12:50:21 by mkiflema          #+#    #+#              #
-#    Updated: 2023/03/29 14:07:22 by mkiflema         ###   ########.fr        #
+#    Updated: 2023/04/08 16:34:47 by mkiflema         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 Name	= so_long
 
-M_SRCS 	= so_long.c validate_arg.c
+M_SRCS 	= so_long.c validate_arg.c render.c check_path.c
 M_OBJS	= $(M_SRCS:.c=.o)
 
 CC		= cc 
