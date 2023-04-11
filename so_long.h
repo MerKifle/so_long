@@ -6,7 +6,7 @@
 /*   By: mkiflema <mkiflema@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/24 12:28:19 by mkiflema          #+#    #+#             */
-/*   Updated: 2023/04/08 17:27:08 by mkiflema         ###   ########.fr       */
+/*   Updated: 2023/04/11 11:22:50 by mkiflema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,10 @@ typedef struct s_data
 	int		width;
 	int		height;
 	int		start[2];
+	int		player_y;
+	int		player_x;
 	int		end[2];
+	int		numofmoves;
 	t_img	img;
 	int		cur_img;
 }	t_data;
@@ -66,7 +69,8 @@ void	display_message(int value);
 int		is_valid_path(t_data data, char **holder);
 
 // render
-int		render(t_data *data);
+void	render(t_data *data);
+void	free_array(char **arr);
 
 // event
 int		handle_keypress(int keysym, t_data *data);

@@ -6,7 +6,7 @@
 /*   By: mkiflema <mkiflema@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/24 12:27:56 by mkiflema          #+#    #+#             */
-/*   Updated: 2023/04/08 18:38:43 by mkiflema         ###   ########.fr       */
+/*   Updated: 2023/04/11 11:39:32 by mkiflema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,8 @@ void	fill_container(t_data **data, char *storage,
 			{
 				(*data)->start[0] = i;
 				(*data)->start[1] = j;
+				(*data)->player_y = i;
+				(*data)->player_x = j;
 			}
 			else if (storage[width] == 'E')
 			{
@@ -82,10 +84,26 @@ char	**store_map(char *storage, t_data *data)
 	return (container);
 }
 
-void	so_long(t_data *data)
+void	so_long(t_data data)
 {
-	
+	data.mlx_ptr = mlx_init();
+	if (data.mlx_ptr == NULL)
+		return ;
+	data.win_ptr = mlx_new_window(data.mlx_ptr, data.width * 64,
+			data.height * 64, "my window");
+	if (data.win_ptr == NULL)
+	{
+		free(data.win_ptr);
+		return ;
+	}
+	data.img.mlx_img = mlx_new_image(data.mlx_ptr, WINDOW_WIDTH, WINDOW_HEIGHT);
+	// mlx_loop_hook(data.mlx_ptr, &render, &data);
+	render(&data);
+	data.numofmoves = 0;
+	mlx_hook(data.win_ptr, KeyPress, KeyPressMask, &handle_keypress, &data);
+	mlx_loop(data.mlx_ptr);
 }
+
 
 int	main(int argc, char **argv)
 {
@@ -95,9 +113,6 @@ int	main(int argc, char **argv)
 	char	**holder;
 	storage = NULL;
 	holder = NULL;
-	// char *file_path;
-	// int img_width=64;
-	// int	img_height=65;
 
 	if (argc == 2)
 	{
@@ -111,28 +126,14 @@ int	main(int argc, char **argv)
 		validate_map_content(fd, &storage);
 		if (!is_map_rectangular(storage))
 			display_message(5);
-		allocate_space(&data, &holder);
-		holder = store_map(storage, &data);
-		(void)holder;
+		// allocate_space(&data, &holder);
+		store_map(storage, &data);
+		// free_array((void **)holder);
 		// if (!(is_valid_path(data, holder)))
 		// 	display_message(6);
 		// else
 		// 	printf("valid path");
-		data.mlx_ptr = mlx_init();
-		if (data.mlx_ptr == NULL)
-			return (MLX_ERROR);
-		data.win_ptr = mlx_new_window(data.mlx_ptr, WINDOW_WIDTH,
-				WINDOW_HEIGHT, "my window");
-		if (data.win_ptr == NULL)
-		{
-			free(data.win_ptr);
-			return (MLX_ERROR);
-		}
-		data.img.mlx_img = mlx_new_image(data.mlx_ptr, WINDOW_WIDTH, WINDOW_HEIGHT);
-		mlx_loop_hook(data.mlx_ptr, &render, &data);
-		// mlx_hook(data.win_ptr, KeyPress, KeyPressMask, &handle_keypress, &data);
-		mlx_loop(data.mlx_ptr);
-		so_long(&data);
+	 	so_long(data);
 		mlx_destroy_image(data.mlx_ptr, data.img.mlx_img);
 		mlx_destroy_window(data.mlx_ptr, data.win_ptr);
 		free(data.mlx_ptr);
