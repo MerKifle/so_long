@@ -21,38 +21,36 @@ int	is_valid_pos(t_data data, char **holder, int y, int x)
 	return (1);
 }
 
-int	dfs(t_data data, char **holder, char **visited,
+int dfs(t_data data, char **holder, char target,
 		int y, int x)
 {
 	if (y == data.end[0] && x == data.end[1])
 		return (1);
-	if (visited[y][x] == '1')
-		return (0);
-	visited[y][x] = 1;
-	if (is_valid_pos(data, holder, y, x + 1)
-		&& dfs(data, holder, visited, y, x + 1))
+	if (target == 'C' && holder[y][x] == 'C')
+	{
+		if (data.collectables != 0)
+			data.collectables -= 1;
+		if (data.collectables == 0)
+			return (1);
+	}
+	if (holder[y][x] == 'E' && target == 'E')
 		return (1);
-	if (is_valid_pos(data, holder, y, x - 1)
-		&& dfs(data, holder, visited, y, x - 1))
+	if (holder[y][x] != 'E')
+		holder[y][x] = '1';
+	if (is_valid_pos(data, holder, y, x + 1) && dfs(data, holder, target, y, x + 1))
 		return (1);
-	if (is_valid_pos(data, holder, y + 1, x)
-		&& dfs(data, holder, visited, y + 1, x))
+	if (is_valid_pos(data, holder, y, x - 1) && dfs(data, holder, target, y, x - 1))
 		return (1);
-	if (is_valid_pos(data, holder, y - 1, x)
-		&& dfs(data, holder, visited, y - 1, x))
+	if (is_valid_pos(data, holder, y + 1, x) && dfs(data, holder, target, y + 1, x))
 		return (1);
-	visited[y][x] = 0;
+	if (is_valid_pos(data, holder, y - 1, x) && dfs(data, holder, target, y - 1, x))
+		return (1);
 	return (0);
 }
 
-int	is_valid_path(t_data data, char **holder)
+int is_valid_path(t_data data, char **holder, char target)
 {
-	char	**visited;
-
-	visited = NULL;
-	allocate_space(&data, &visited);
-	visited[0][0] = 0;
-	return (dfs(data, holder, visited, data.start[0], data.start[1]));
+	return (dfs(data, holder, target, data.start[0], data.start[1]));
 }
 
 // int main() {

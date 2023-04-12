@@ -86,6 +86,7 @@ char	**store_map(char *storage, t_data *data)
 	allocate_space(data, &container);
 	fill_container(&data, storage, &container, -1);
 	data->storage = container;
+	data->numofmoves = 0;
 	return (container);
 }
 
@@ -104,7 +105,6 @@ void	so_long(t_data data)
 	data.img.mlx_img = mlx_new_image(data.mlx_ptr, WINDOW_WIDTH, WINDOW_HEIGHT);
 	// mlx_loop_hook(data.mlx_ptr, &render, &data);
 	render(&data);
-	data.numofmoves = 0;
 	mlx_hook(data.win_ptr, KeyPress, KeyPressMask, &handle_keypress, &data);
 	mlx_loop(data.mlx_ptr);
 }
