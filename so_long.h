@@ -52,6 +52,7 @@ typedef struct s_data
 	int		player_x;
 	int		end[2];
 	int		numofmoves;
+	int		collectables;
 	t_img	img;
 	int		cur_img;
 }	t_data;

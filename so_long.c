@@ -17,8 +17,10 @@ void	fill_container(t_data **data, char *storage,
 {
 	int		j;
 	int		width;
+	int		collectables;
 
 	width = -1;
+	collectables = 0;
 	while (++i < (*data)->height)
 	{
 		j = 0;
@@ -36,10 +38,13 @@ void	fill_container(t_data **data, char *storage,
 				(*data)->end[0] = i;
 				(*data)->end[1] = j;
 			}
+			else if (storage[width] == 'C')
+				collectables += 1;
 			(*container)[i][j++] = storage[width];
 		}
 	}
 	(*container)[i] = 0;
+	(*data)->collectables = collectables;
 	free(storage);
 }
 
@@ -110,9 +115,9 @@ int	main(int argc, char **argv)
 	t_data	data;
 	int		fd;
 	char	*storage;
-	char	**holder;
+	// char	**holder;
 	storage = NULL;
-	holder = NULL;
+	// holder = NULL;
 
 	if (argc == 2)
 	{

@@ -17,7 +17,7 @@ void	change_pos(t_data *data, int y, int x)
 	if (y < 0 || y >= data->height || x < 0 || x >= data->width
 		|| data->storage[data->player_y][data->player_x] != 'P')
 		return ;
-	if (data->storage[y][x] == '1')
+	if (data->storage[y][x] == '1' || (data->storage[y][x] == 'E' && data->collectables != 0))
 		return ;
 	data->storage[data->player_y][data->player_x] = '0';
 	data->numofmoves = (int)data->numofmoves + 1;
