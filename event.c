@@ -6,18 +6,26 @@
 /*   By: mkiflema <mkiflema@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/07 15:50:09 by mkiflema          #+#    #+#             */
-/*   Updated: 2023/04/11 11:43:01 by mkiflema         ###   ########.fr       */
+/*   Updated: 2023/04/12 22:39:08 by mkiflema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long.h"
 
-void	change_pos(t_data *data, int y, int x)
+static int	check_validity(t_data *data, int y, int x)
 {
 	if (y < 0 || y >= data->height || x < 0 || x >= data->width
 		|| data->storage[data->player_y][data->player_x] != 'P')
-		return ;
-	if (data->storage[y][x] == '1' || (data->storage[y][x] == 'E' && data->collectables != 0))
+		return (0);
+	if (data->storage[y][x] == '1' || (data->storage[y][x] == 'E' 
+			&& data->collectables != 0))
+		return (0);
+	return (1);
+}
+
+void	change_pos(t_data *data, int y, int x)
+{
+	if (check_validity(data, y, x) == 0)
 		return ;
 	data->storage[data->player_y][data->player_x] = '0';
 	data->numofmoves = (int)data->numofmoves + 1;
@@ -36,6 +44,7 @@ void	change_pos(t_data *data, int y, int x)
 	}
 	else if (data->storage[y][x] == 'C')
 	{
+		data->collectables -= 1;
 		data->storage[y][x] = 'P';
 		render(data);
 	}

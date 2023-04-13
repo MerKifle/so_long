@@ -6,7 +6,7 @@
 /*   By: mkiflema <mkiflema@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/29 09:57:31 by mkiflema          #+#    #+#             */
-/*   Updated: 2023/04/08 16:28:51 by mkiflema         ###   ########.fr       */
+/*   Updated: 2023/04/13 10:58:08 by mkiflema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ int	validate_map_content(int fd, char **storage)
 		else if ((*storage)[i] == 'C')
 			colle++;
 	}
-	if (start > 1 || end > 1)
+	if (start < 1 || start > 1 || end < 1 || end > 1)
 		display_message(3);
 	else if (colle < 1)
 		display_message(4);
@@ -66,8 +66,6 @@ int	is_map_rectangular(char *map)
 		else if (holder != 0 && holder != width)
 			return (0);
 	}
-	// if (height == width)
-	// 	return (0);
 	return (1);
 }
 
@@ -119,7 +117,7 @@ void	display_message(int value)
 	else if (value == 2)
 		ft_putstr("Error\nfile path is not valid!");
 	else if (value == 3)
-		ft_putstr("Error\nstart or exit are dublicated!");
+		ft_putstr("Error\nstart or exit are not exist or/and dublicated!");
 	else if (value == 4)
 		ft_putstr("Error\ngame should have at leat one collectable!");
 	else if (value == 5)

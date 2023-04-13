@@ -6,64 +6,62 @@
 /*   By: mkiflema <mkiflema@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/08 11:09:24 by mkiflema          #+#    #+#             */
-/*   Updated: 2023/04/08 18:37:13 by mkiflema         ###   ########.fr       */
+/*   Updated: 2023/04/13 10:55:06 by mkiflema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long.h"
 
-int	is_valid_pos(t_data data, char **holder, int y, int x)
+void	make_area(t_data data, char *storage, char ***holder)
 {
-	if (y < 0 || y >= data.height || x < 0 || x >= data.width)
-		return (0);
-	if (holder[y][x] == '1')
-		return (0);
-	return (1);
+	int	j;
+	int	width;
+	int	i;
+
+	width = -1;
+	i = -1;
+	while (++i < data.height)
+	{
+		j = 0;
+		while (storage[++width] && storage[width] != '\n')
+		{
+			(*holder)[i][j++] = storage[width];
+		}
+	}
+	(*holder)[i] = 0;
 }
 
-int dfs(t_data data, char **holder, char target,
-		int y, int x)
+static int	dfs(t_data data, char **holder, char target, t_cur cur)
 {
-	if (y == data.end[0] && x == data.end[1])
+	if (cur.y < 0 || cur.y >= data.height || cur.x < 0 || cur.x >= data.width)
+		return (0);
+	else if (holder[cur.y][cur.x] == '1'
+		|| (holder[cur.y][cur.x] != 'E' && data.count_collectables != 0))
+		return (0);
+	else if (cur.y == data.end[0] && cur.x == data.end[1])
 		return (1);
-	if (target == 'C' && holder[y][x] == 'C')
-	{
-		if (data.collectables != 0)
-			data.collectables -= 1;
-		if (data.collectables == 0)
-			return (1);
-	}
-	if (holder[y][x] == 'E' && target == 'E')
+	if (holder[cur.y][cur.x] == 'E' && target == 'E')
 		return (1);
-	if (holder[y][x] != 'E')
-		holder[y][x] = '1';
-	if (is_valid_pos(data, holder, y, x + 1) && dfs(data, holder, target, y, x + 1))
+	else if (target == 'C' && holder[cur.y][cur.x] == 'C')
+		if (data.count_collectables != 0)
+			data.count_collectables -= 1;
+	if (data.count_collectables == 0)
 		return (1);
-	if (is_valid_pos(data, holder, y, x - 1) && dfs(data, holder, target, y, x - 1))
+	if (holder[cur.y][cur.x] != 'E')
+		holder[cur.y][cur.x] = '1';
+	if (dfs(data, holder, target, (t_cur){cur.y, cur.x + 1}))
 		return (1);
-	if (is_valid_pos(data, holder, y + 1, x) && dfs(data, holder, target, y + 1, x))
+	if (dfs(data, holder, target, (t_cur){cur.y, cur.x - 1}))
 		return (1);
-	if (is_valid_pos(data, holder, y - 1, x) && dfs(data, holder, target, y - 1, x))
+	if (dfs(data, holder, target, (t_cur){cur.y + 1, cur.x}))
+		return (1);
+	if (dfs(data, holder, target, (t_cur){cur.y - 1, cur.x}))
 		return (1);
 	return (0);
 }
 
-int is_valid_path(t_data data, char **holder, char target)
+int	is_valid_path(t_data data, char **holder, char target)
 {
-	return (dfs(data, holder, target, data.start[0], data.start[1]));
+	return (dfs(data, holder, target,
+			(t_cur){data.start[0], data.start[1]}));
 }
-
-// int main() {
-//     char grid[ROWS][COLS] = {
-//         {'1', '1', '1', '1', '1'},
-//         {'1', 'C', '0', 'P', '1'},
-//         {'1', '1', '1', '0', '1'},
-//         {'1', 'C', 'E', '0', '1'},
-//         {'1', '1', '1', '1', '1'}
-//     };
-//     if (is_valid_path(grid))
-//         printf("Valid path found!\n");
-//     else
-//         printf("No valid path found.\n");
-//     return 0;
-// }

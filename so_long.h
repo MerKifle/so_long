@@ -6,7 +6,7 @@
 /*   By: mkiflema <mkiflema@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/24 12:28:19 by mkiflema          #+#    #+#             */
-/*   Updated: 2023/04/11 11:22:50 by mkiflema         ###   ########.fr       */
+/*   Updated: 2023/04/13 11:04:45 by mkiflema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,12 @@ typedef struct s_img
 	char	*addr;
 }	t_img;
 
+typedef struct s_cur
+{
+	int	y;
+	int	x;
+}		t_cur;
+
 typedef struct s_data
 {
 	void	*mlx_ptr;
@@ -53,7 +59,9 @@ typedef struct s_data
 	int		end[2];
 	int		numofmoves;
 	int		collectables;
+	int		count_collectables;
 	t_img	img;
+	t_cur	cur;
 	int		cur_img;
 }	t_data;
 
@@ -66,8 +74,11 @@ int		is_wall_valid(char *str);
 int		is_name_valid(char *pathname);
 void	display_message(int value);
 
+//utils
+void	allocate_space(t_data *data, char ***container);
 // check_path
-int		is_valid_path(t_data data, char **holder);
+int		is_valid_path(t_data data, char **holder, char target);
+void	make_area(t_data data, char *storage, char ***holder);
 
 // render
 void	render(t_data *data);
