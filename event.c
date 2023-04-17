@@ -6,7 +6,7 @@
 /*   By: mkiflema <mkiflema@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/07 15:50:09 by mkiflema          #+#    #+#             */
-/*   Updated: 2023/04/12 22:39:08 by mkiflema         ###   ########.fr       */
+/*   Updated: 2023/04/17 21:27:39 by mkiflema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,25 @@ static int	check_validity(t_data *data, int y, int x)
 	if (y < 0 || y >= data->height || x < 0 || x >= data->width
 		|| data->storage[data->player_y][data->player_x] != 'P')
 		return (0);
-	if (data->storage[y][x] == '1' || (data->storage[y][x] == 'E' 
+	if (data->storage[y][x] == '1' || (data->storage[y][x] == 'E'
 			&& data->collectables != 0))
 		return (0);
 	return (1);
+}
+
+static void	erase_num_of_moves(t_data *data, int x, int y)
+{
+	char	*str;
+
+	str = ft_strjoin("Num of moves: ", ft_itoa(data->numofmoves));
+	while (x < data->width)
+	{
+		push_image(data, '0', y, x);
+		x++;
+	}
+	mlx_string_put(data->mlx_ptr, data->win_ptr, 0, y * 64 + 16,
+		GREEN_PIXEL, str);
+	free(str);
 }
 
 void	change_pos(t_data *data, int y, int x)
@@ -30,10 +45,11 @@ void	change_pos(t_data *data, int y, int x)
 	data->storage[data->player_y][data->player_x] = '0';
 	data->numofmoves = (int)data->numofmoves + 1;
 	ft_printf("Num of moves: %d\n", data->numofmoves);
+	erase_num_of_moves(data, 0, data->height);
 	if (data->storage[y][x] == 'E')
 	{
 		render(data);
-		return ;
+		clear_and_close(data);
 	}
 	data->player_x = x;
 	data->player_y = y;
@@ -54,10 +70,10 @@ int	handle_keypress(int keysym, t_data *data)
 {
 	if (keysym == 53)
 	{
-		free_array(data->storage);
-		mlx_destroy_window(data->mlx_ptr, data->win_ptr);
-		data->win_ptr = NULL;
-		exit(0);
+		// free_array(data->storage);
+		// mlx_destroy_window(data->mlx_ptr, data->win_ptr);
+		// data->win_ptr = NULL;
+		clear_and_close(data);
 	}
 	else if (keysym == 123 || keysym == 0)
 		change_pos(data, data->player_y, data->player_x - 1);

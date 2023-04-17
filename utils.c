@@ -6,7 +6,7 @@
 /*   By: mkiflema <mkiflema@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/13 10:44:55 by mkiflema          #+#    #+#             */
-/*   Updated: 2023/04/13 10:50:56 by mkiflema         ###   ########.fr       */
+/*   Updated: 2023/04/17 18:25:36 by mkiflema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ void	allocate_space(t_data *data, char ***container)
 	}
 }
 
-static void	do_for_each_char(t_data, **data, char c)
+static void	do_for_each_char(t_data **data, char c, int i, int j)
 {
 	if (c == 'P')
 	{
@@ -57,7 +57,7 @@ void	fill_container(t_data **data, char *storage, char ***container, int i)
 		j = 0;
 		while (storage[++width] && storage[width] != '\n')
 		{
-			do_for_each_char(data, storage[width]);
+			do_for_each_char(data, storage[width], i, j);
 			(*container)[i][j++] = storage[width];
 		}
 	}
@@ -85,7 +85,7 @@ void	store_map(char *storage, t_data *data)
 		width++;
 	data->height = height;
 	data->width = width;
-	(*data)->collectables = 0;
+	data->collectables = 0;
 	allocate_space(data, &container);
 	fill_container(&data, storage, &container, -1);
 	data->storage = container;

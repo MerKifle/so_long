@@ -6,11 +6,19 @@
 /*   By: mkiflema <mkiflema@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/29 09:57:31 by mkiflema          #+#    #+#             */
-/*   Updated: 2023/04/13 10:58:08 by mkiflema         ###   ########.fr       */
+/*   Updated: 2023/04/17 19:00:08 by mkiflema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long.h"
+
+static void	check_start_and_exit(char **storage, int start, int exit, int colle)
+{
+	if (start < 1 || start > 1 || exit < 1 || exit > 1)
+		display_message(storage, 3);
+	else if (colle < 1)
+		display_message(storage, 4);
+}
 
 int	validate_map_content(int fd, char **storage)
 {
@@ -24,7 +32,10 @@ int	validate_map_content(int fd, char **storage)
 	end = 0;
 	colle = 0;
 	while (get_next_line(fd, &line))
+	{
 		*storage = ft_strjoin(*storage, line);
+	}
+	free(line);
 	i = -1;
 	while ((*storage)[++i])
 	{
@@ -35,10 +46,7 @@ int	validate_map_content(int fd, char **storage)
 		else if ((*storage)[i] == 'C')
 			colle++;
 	}
-	if (start < 1 || start > 1 || end < 1 || end > 1)
-		display_message(3);
-	else if (colle < 1)
-		display_message(4);
+	check_start_and_exit(storage, start, end, colle);
 	return (1);
 }
 
@@ -66,6 +74,7 @@ int	is_map_rectangular(char *map)
 		else if (holder != 0 && holder != width)
 			return (0);
 	}
+	free(map);
 	return (1);
 }
 
@@ -106,23 +115,4 @@ int	is_name_valid(char *pathname)
 	if (ft_strncmp(pathname, ".ber", i))
 		return (0);
 	return (1);
-}
-
-void	display_message(int value)
-{
-	if (value == 0)
-		ft_putstr("Error\ninvalid file!");
-	else if (value == 1)
-		ft_putstr("Error\nfilename is not valid!");
-	else if (value == 2)
-		ft_putstr("Error\nfile path is not valid!");
-	else if (value == 3)
-		ft_putstr("Error\nstart or exit are not exist or/and dublicated!");
-	else if (value == 4)
-		ft_putstr("Error\ngame should have at leat one collectable!");
-	else if (value == 5)
-		ft_putstr("Error\nmap is not rectangular!");
-	else if (value == 6)
-		ft_putstr("Error\npath is not valid!");
-	exit(0);
 }

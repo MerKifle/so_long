@@ -27,6 +27,7 @@ char	*ft_strjoin(char const *s1, char const *s2)
 		return (0);
 	ft_strlcpy(joined_str, s1, len + 1);
 	ft_strlcat(joined_str, s2, len + 1);
+	free(s2);
 	return (joined_str);
 }
 

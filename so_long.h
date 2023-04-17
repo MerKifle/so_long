@@ -6,7 +6,7 @@
 /*   By: mkiflema <mkiflema@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/24 12:28:19 by mkiflema          #+#    #+#             */
-/*   Updated: 2023/04/13 11:04:45 by mkiflema         ###   ########.fr       */
+/*   Updated: 2023/04/17 21:23:33 by mkiflema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,6 @@
 # include <string.h>
 # include <fcntl.h>
 # include <math.h>
-# include <X11/X.h>
-# include <X11/keysym.h>
-# include "mlx/mlx.h"
 # include "mlx/mlx.h"
 # include "libft/libft.h"
 
@@ -38,6 +35,11 @@ typedef struct s_img
 {
 	void	*mlx_img;
 	char	*addr;
+	void	*wall;
+	void	*player;
+	void	*empty;
+	void	*collectable;
+	void	*exit;
 }	t_img;
 
 typedef struct s_cur
@@ -72,17 +74,26 @@ int		validate_map_content(int fd, char **storage);
 int		is_map_rectangular(char *map);
 int		is_wall_valid(char *str);
 int		is_name_valid(char *pathname);
-void	display_message(int value);
+
+// free_and_close
+
+void	free_array(char **arr);
+void	clear_and_close(t_data *data);
+void	display_message(char **storage, int value);
 
 //utils
 void	allocate_space(t_data *data, char ***container);
+void	store_map(char *storage, t_data *data);
+
 // check_path
 int		is_valid_path(t_data data, char **holder, char target);
 void	make_area(t_data data, char *storage, char ***holder);
 
 // render
 void	render(t_data *data);
-void	free_array(char **arr);
+void	create_images(t_data *data);
+void	push_image(t_data *data, char c, int y, int x);
+void	get_image(char **file_path, t_data *data, int y, int x);
 
 // event
 int		handle_keypress(int keysym, t_data *data);
