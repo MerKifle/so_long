@@ -6,7 +6,7 @@
 /*   By: mkiflema <mkiflema@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/13 10:44:55 by mkiflema          #+#    #+#             */
-/*   Updated: 2023/04/17 18:25:36 by mkiflema         ###   ########.fr       */
+/*   Updated: 2023/04/19 12:08:15 by mkiflema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,52 +18,49 @@ void	allocate_space(t_data *data, char ***container)
 
 	(*container) = malloc(sizeof(char *) * (data->height + 1));
 	if (!(*container))
+	{
+		free_array((*container));
 		return ;
+	}
 	i = -1;
 	while (++i < data->height)
 	{
 		(*container)[i] = malloc(sizeof(char) * (data->width + 1));
 		if (!(*container)[i])
+		{
+			free((*container)[i]);
 			return ;
+		}
 	}
 }
 
-static void	do_for_each_char(t_data **data, char c, int i, int j)
-{
-	if (c == 'P')
-	{
-		(*data)->start[0] = i;
-		(*data)->start[1] = j;
-		(*data)->player_y = i;
-		(*data)->player_x = j;
-	}
-	else if (c == 'E')
-	{
-		(*data)->end[0] = i;
-		(*data)->end[1] = j;
-	}
-	else if (c == 'C')
-		(*data)->collectables += 1;
-}
-
-void	fill_container(t_data **data, char *storage, char ***container, int i)
+void	fill_container(t_data **data, char *storage, int i)
 {
 	int		j;
 	int		width;
 
 	width = -1;
+	if (!(*data)->storage || !(*data)->storage[0])
+		return ;
 	while (++i < (*data)->height)
 	{
 		j = 0;
 		while (storage[++width] && storage[width] != '\n')
 		{
-			do_for_each_char(data, storage[width], i, j);
-			(*container)[i][j++] = storage[width];
+			if (storage[width] == 'P')
+			{
+				(*data)->start[0] = i;
+				(*data)->start[1] = j;
+				(*data)->player_y = i;
+				(*data)->player_x = j;
+			}
+			else if (storage[width] == 'C')
+				(*data)->collectables += 1;
+			(*data)->storage[i][j++] = storage[width];
 		}
+		(*data)->storage[i][j] = '\0';
 	}
-	(*container)[i] = 0;
-	(*data)->count_collectables = (*data)->collectables;
-	free(storage);
+	(*data)->storage[i] = 0;
 }
 
 void	store_map(char *storage, t_data *data)
@@ -71,11 +68,9 @@ void	store_map(char *storage, t_data *data)
 	int		width;
 	int		height;
 	int		i;
-	char	**container;
 
 	i = -1;
 	height = 1;
-	container = NULL;
 	while (storage[++i])
 		if (storage[i] == '\n' && storage[i + 1] != '\0')
 			height++;
@@ -86,8 +81,8 @@ void	store_map(char *storage, t_data *data)
 	data->height = height;
 	data->width = width;
 	data->collectables = 0;
-	allocate_space(data, &container);
-	fill_container(&data, storage, &container, -1);
-	data->storage = container;
+	data->storage = NULL;
+	allocate_space(data, &data->storage);
+	fill_container(&data, storage, -1);
 	data->numofmoves = 0;
 }

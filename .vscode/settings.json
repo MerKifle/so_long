@@ -7,6 +7,23 @@
 		"so_long.h": "c",
 		"stdlib.h": "c",
 		"string.h": "c",
-		"ios": "c"
+		"ios": "c",
+		"__functional_03": "c",
+		"functional": "c",
+		"__bit_reference": "c",
+		"__config": "c",
+		"__hash_table": "c",
+		"__split_buffer": "c",
+		"algorithm": "c",
+		"array": "c",
+		"initializer_list": "c",
+		"iterator": "c",
+		"locale": "c",
+		"sstream": "c",
+		"string": "c",
+		"string_view": "c",
+		"unordered_map": "c",
+		"utility": "c",
+		"vector": "c"
 	}
 }

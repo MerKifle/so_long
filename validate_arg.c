@@ -6,7 +6,7 @@
 /*   By: mkiflema <mkiflema@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/29 09:57:31 by mkiflema          #+#    #+#             */
-/*   Updated: 2023/04/17 19:00:08 by mkiflema         ###   ########.fr       */
+/*   Updated: 2023/04/19 11:55:14 by mkiflema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ static void	check_start_and_exit(char **storage, int start, int exit, int colle)
 		display_message(storage, 4);
 }
 
-int	validate_map_content(int fd, char **storage)
+void	validate_map_content(int fd, char **storage)
 {
 	int		start;
 	int		end;
@@ -31,10 +31,9 @@ int	validate_map_content(int fd, char **storage)
 	start = 0;
 	end = 0;
 	colle = 0;
+	line = NULL;
 	while (get_next_line(fd, &line))
-	{
 		*storage = ft_strjoin(*storage, line);
-	}
 	free(line);
 	i = -1;
 	while ((*storage)[++i])
@@ -46,59 +45,58 @@ int	validate_map_content(int fd, char **storage)
 		else if ((*storage)[i] == 'C')
 			colle++;
 	}
+	close(fd);
 	check_start_and_exit(storage, start, end, colle);
-	return (1);
 }
 
-int	is_map_rectangular(char *map)
+int	is_map_rectangular(t_data *data)
 {
-	int	width;
-	int	height;
+	int	x;
 	int	holder;
-	int	i;
+	int	y;
 
-	width = 0;
-	height = 1;
-	i = -1;
-	while (map[++i])
+	x = 0;
+	holder = 0;
+	y = -1;
+	while (data->storage[++y])
 	{
-		if (map[i] == '\n')
+		x = 0;
+		while (data->storage[y][x])
+			x++;
+		if (holder == 0)
+			holder = x;
+		else if (holder != 0 && holder != x)
 		{
-			map = ft_strdup(map + i + 1);
-			width = i;
-			height++;
-			i = -1;
-		}
-		if (!holder)
-			holder = width;
-		else if (holder != 0 && holder != width)
+			free_array(data->storage);
 			return (0);
+		}
 	}
-	free(map);
 	return (1);
 }
 
-int	is_wall_valid(char *str)
+int	is_wall_valid(t_data data, char **storage)
 {
-	int		wall;
-	int		i;
+	int		y;
+	int		x;
+	char	c;
 
-	wall = 0;
-	i = -1;
-	while (str[++i])
+	y = -1;
+	while (data.storage[++y] && y < data.height)
 	{
-		if (i == 0 && str[i] == '1')
-			wall++;
-		if (str[i] == '1' && str[i + 1] == '\n')
-			wall++;
-		if (str[i] == '\n' && wall == 2)
+		x = -1;
+		while (data.storage[y][++x] && x < data.width)
 		{
-			str = ft_strdup(str + i + 1);
-			i = -1;
-			wall = 0;
+			if ((y == 0 || y == (data.height - 1)) && data.storage[y][x] != '1')
+				return (0);
+			if ((x == 0 || x == (data.width - 1)) && data.storage[y][x] != '1')
+				return (0);
+			c = data.storage[y][x];
+			if (c != 'P' && c != '1' && c != '0' && c != 'C' && c != 'E')
+			{
+				free_array(data.storage);
+				display_message(storage, 7);
+			}
 		}
-		if (str[i] == '\n' && wall != 2)
-			return (0);
 	}
 	return (1);
 }

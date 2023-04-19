@@ -6,7 +6,7 @@
 /*   By: mkiflema <mkiflema@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/07 15:50:09 by mkiflema          #+#    #+#             */
-/*   Updated: 2023/04/17 21:27:39 by mkiflema         ###   ########.fr       */
+/*   Updated: 2023/04/19 13:03:56 by mkiflema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,18 +27,17 @@ static void	erase_num_of_moves(t_data *data, int x, int y)
 {
 	char	*str;
 
-	str = ft_strjoin("Num of moves: ", ft_itoa(data->numofmoves));
-	while (x < data->width)
-	{
+	str = ft_strjoin(ft_strdup("Num of moves: "), ft_itoa(data->numofmoves));
+	x--;
+	while (++x < data->width)
 		push_image(data, '0', y, x);
-		x++;
-	}
 	mlx_string_put(data->mlx_ptr, data->win_ptr, 0, y * 64 + 16,
 		GREEN_PIXEL, str);
-	free(str);
+	if (str)
+		free(str);
 }
 
-void	change_pos(t_data *data, int y, int x)
+static void	change_pos(t_data *data, int y, int x)
 {
 	if (check_validity(data, y, x) == 0)
 		return ;
@@ -69,12 +68,7 @@ void	change_pos(t_data *data, int y, int x)
 int	handle_keypress(int keysym, t_data *data)
 {
 	if (keysym == 53)
-	{
-		// free_array(data->storage);
-		// mlx_destroy_window(data->mlx_ptr, data->win_ptr);
-		// data->win_ptr = NULL;
 		clear_and_close(data);
-	}
 	else if (keysym == 123 || keysym == 0)
 		change_pos(data, data->player_y, data->player_x - 1);
 	else if (keysym == 124 || keysym == 2)

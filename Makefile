@@ -6,7 +6,7 @@
 #    By: mkiflema <mkiflema@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/03/24 12:50:21 by mkiflema          #+#    #+#              #
-#    Updated: 2023/04/17 18:43:16 by mkiflema         ###   ########.fr        #
+#    Updated: 2023/04/19 13:13:43 by mkiflema         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -33,4 +33,4 @@ fclean: clean
 	cd ./libft && make fclean
 	$(RM) $(Name)
 
-re: fclean all
+re: fclean 	

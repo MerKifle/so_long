@@ -6,20 +6,18 @@
 /*   By: mkiflema <mkiflema@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/17 18:25:07 by mkiflema          #+#    #+#             */
-/*   Updated: 2023/04/17 18:40:57 by mkiflema         ###   ########.fr       */
+/*   Updated: 2023/04/19 12:57:10 by mkiflema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long.h"
-
-
 
 void	free_array(char **arr)
 {
 	int	i;
 
 	i = 0;
-	if (!arr || *arr)
+	if (!arr || !(*arr))
 		return ;
 	while (arr[i])
 		i++;
@@ -32,10 +30,20 @@ void	free_array(char **arr)
 void	clear_and_close(t_data *data)
 {
 	free_array(data->storage);
-	mlx_destroy_image(data->mlx_ptr, data->img.mlx_img);
+	mlx_destroy_image(data->mlx_ptr, data->img.wall);
+	mlx_destroy_image(data->mlx_ptr, data->img.player);
+	mlx_destroy_image(data->mlx_ptr, data->img.empty);
+	mlx_destroy_image(data->mlx_ptr, data->img.exit);
+	mlx_destroy_image(data->mlx_ptr, data->img.collectable);
 	mlx_destroy_window(data->mlx_ptr, data->win_ptr);
 	free(data->mlx_ptr);
 	exit(0);
+}
+
+int	close_window(t_data *data)
+{
+	clear_and_close(data);
+	return (0);
 }
 
 void	display_message(char **storage, int value)
@@ -45,16 +53,20 @@ void	display_message(char **storage, int value)
 	else if (value == 1)
 		ft_putstr("Error\nfilename is not valid!");
 	else if (value == 2)
-		ft_putstr("Error\nfile path is not valid!");
+		ft_putstr("Error\nfile does not exist!");
 	else if (value == 3)
-		ft_putstr("Error\nstart or exit are not exist or/and dublicated!");
+		ft_putstr("Error\nplayer or/and exit are dublicated!");
 	else if (value == 4)
-		ft_putstr("Error\ngame should have at leat one collectable!");
+		ft_putstr("Error\ngame should have at least one collectable!");
 	else if (value == 5)
 		ft_putstr("Error\nmap is not rectangular!");
 	else if (value == 6)
+		ft_putstr("Error\nwall is not valid");
+	else if (value == 7)
+		ft_putstr("Error\ninvalid map content!");
+	else if (value == 8)
 		ft_putstr("Error\npath is not valid!");
-	if (storage || (*storage))
-		free_array(storage);
+	if (*storage)
+		free(*storage);
 	exit(0);
 }
