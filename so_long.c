@@ -6,7 +6,7 @@
 /*   By: mkiflema <mkiflema@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/24 12:27:56 by mkiflema          #+#    #+#             */
-/*   Updated: 2023/04/19 13:08:26 by mkiflema         ###   ########.fr       */
+/*   Updated: 2023/04/19 13:16:49 by mkiflema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ void	so_long(t_data data)
 	if (data.mlx_ptr == NULL)
 		return ;
 	data.win_ptr = mlx_new_window(data.mlx_ptr, data.width * 64,
-			data.height * 64 + 32, "my window");
+			data.height * 64 + 32, "so_long");
 	if (data.win_ptr == NULL)
 	{
 		free(data.mlx_ptr);
