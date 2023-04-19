@@ -6,7 +6,7 @@
 /*   By: mkiflema <mkiflema@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/24 12:28:19 by mkiflema          #+#    #+#             */
-/*   Updated: 2023/04/19 13:03:17 by mkiflema         ###   ########.fr       */
+/*   Updated: 2023/04/19 13:43:53 by mkiflema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,6 @@
 # include <math.h>
 # include "mlx/mlx.h"
 # include "libft/libft.h"
-
-# define WINDOW_WIDTH 900
-# define WINDOW_HEIGHT 400
 
 # define GREEN_PIXEL 0x00FF00
 
