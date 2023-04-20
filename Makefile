@@ -6,7 +6,7 @@
 #    By: mkiflema <mkiflema@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/03/24 12:50:21 by mkiflema          #+#    #+#              #
-#    Updated: 2023/04/19 13:13:43 by mkiflema         ###   ########.fr        #
+#    Updated: 2023/04/20 20:21:42 by mkiflema         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,21 +16,23 @@ M_SRCS 	= so_long.c validate_arg.c utils.c render.c event.c check_path.c free_an
 M_OBJS	= $(M_SRCS:.c=.o)
 
 CC		= cc 
-CFLAGS	= -Wall -Wextra -Werror
+CFLAGS	= -Wall -Wextra -Werror 
 RM		= rm -f 
 
 all: $(Name)
 
 $(Name): $(M_OBJS)
 	cd ./libft && make
-	@$(CC) $(CFLAGS) $(M_OBJS) ./libft/libft.a -Lmlx -lmlx -framework OpenGL -framework AppKit -o $(Name)
+	cd ./mlx && make
+	@$(CC) $(CFLAGS) $(M_OBJS) ./libft/libft.a  -Lmlx -lmlx -framework OpenGL -framework AppKit -o $(Name)
 
 clean:
 	cd ./libft && make clean
+	cd ./mlx && make clean
 	$(RM) $(M_OBJS)
 
 fclean: clean
 	cd ./libft && make fclean
 	$(RM) $(Name)
 
-re: fclean 	
+re: fclean 	all

@@ -6,7 +6,7 @@
 /*   By: mkiflema <mkiflema@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/29 09:57:31 by mkiflema          #+#    #+#             */
-/*   Updated: 2023/04/19 13:37:00 by mkiflema         ###   ########.fr       */
+/*   Updated: 2023/04/20 20:13:55 by mkiflema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,27 +14,35 @@
 
 static void	check_start_and_exit(char **storage, int start, int exit, int colle)
 {
+	int	i;
+
 	if (start < 1 || start > 1 || exit < 1 || exit > 1)
 		display_message(storage, 3);
 	else if (colle < 1)
 		display_message(storage, 4);
+	i = 0;
+	while ((*storage)[i])
+		i++;
+	if ((*storage)[i - 1] == '\n')
+		display_message(storage, -2);
 }
 
-void	validate_map_content(int fd, char **storage)
+void	validate_map_content(int fd, char **storage, char *line)
 {
 	int		start;
 	int		end;
-	char	*line;
 	int		i;
 	int		colle;
 
 	start = 0;
 	end = 0;
 	colle = 0;
-	line = NULL;
 	while (get_next_line(fd, &line))
 		*storage = ft_strjoin(*storage, line);
 	free(line);
+	close(fd);
+	if (!storage[0] || storage[0][0] == '\n')
+		display_message(storage, -1);
 	i = -1;
 	while ((*storage)[++i])
 	{
@@ -45,7 +53,6 @@ void	validate_map_content(int fd, char **storage)
 		else if ((*storage)[i] == 'C')
 			colle++;
 	}
-	close(fd);
 	check_start_and_exit(storage, start, end, colle);
 }
 

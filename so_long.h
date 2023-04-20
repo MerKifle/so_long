@@ -6,7 +6,7 @@
 /*   By: mkiflema <mkiflema@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/24 12:28:19 by mkiflema          #+#    #+#             */
-/*   Updated: 2023/04/19 13:43:53 by mkiflema         ###   ########.fr       */
+/*   Updated: 2023/04/20 20:21:54 by mkiflema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ typedef struct s_data
 }	t_data;
 
 // validate_arg
-void	validate_map_content(int fd, char **storage);
+void	validate_map_content(int fd, char **storage, char *line);
 int		is_map_rectangular(t_data *data);
 int		is_wall_valid(t_data data, char **storage);
 int		is_name_valid(char *pathname);

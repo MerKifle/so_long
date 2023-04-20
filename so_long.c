@@ -6,7 +6,7 @@
 /*   By: mkiflema <mkiflema@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/24 12:27:56 by mkiflema          #+#    #+#             */
-/*   Updated: 2023/04/19 13:16:49 by mkiflema         ###   ########.fr       */
+/*   Updated: 2023/04/20 20:19:52 by mkiflema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,12 @@ static void	create_images(t_data *data)
 	file_path = "textures/end.xpm";
 	data->img.exit = mlx_xpm_file_to_image((*data).mlx_ptr,
 			file_path, &img_width, &img_height);
+	if (data->img.wall == NULL || data->img.empty == NULL || data->img.player
+		== NULL || data->img.collectable == NULL || data->img.exit == NULL)
+	{
+		ft_printf("either one or all of the textures are not exist!");
+		clear_and_close(data);
+	}
 }
 
 void	so_long(t_data data)
@@ -56,7 +62,8 @@ void	so_long(t_data data)
 
 static void	check_input_validity(char **argv, char **storage, t_data *data)
 {
-	int	fd;
+	int		fd;
+	char	*line;
 
 	if (!argv[1] || !argv[1][0])
 		display_message(storage, 0);
@@ -65,7 +72,8 @@ static void	check_input_validity(char **argv, char **storage, t_data *data)
 	fd = open(argv[1], O_RDONLY, 0777);
 	if (fd == -1)
 		display_message(storage, 2);
-	validate_map_content(fd, storage);
+	line = NULL;
+	validate_map_content(fd, storage, line);
 	close(fd);
 	store_map(*storage, data);
 	if (!is_map_rectangular(data))

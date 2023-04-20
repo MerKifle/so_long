@@ -6,7 +6,7 @@
 /*   By: mkiflema <mkiflema@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/17 18:25:07 by mkiflema          #+#    #+#             */
-/*   Updated: 2023/04/19 12:57:10 by mkiflema         ###   ########.fr       */
+/*   Updated: 2023/04/20 20:20:33 by mkiflema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,11 +30,16 @@ void	free_array(char **arr)
 void	clear_and_close(t_data *data)
 {
 	free_array(data->storage);
-	mlx_destroy_image(data->mlx_ptr, data->img.wall);
-	mlx_destroy_image(data->mlx_ptr, data->img.player);
-	mlx_destroy_image(data->mlx_ptr, data->img.empty);
-	mlx_destroy_image(data->mlx_ptr, data->img.exit);
-	mlx_destroy_image(data->mlx_ptr, data->img.collectable);
+	if (data->img.wall)
+		mlx_destroy_image(data->mlx_ptr, data->img.wall);
+	if (data->img.player)
+		mlx_destroy_image(data->mlx_ptr, data->img.player);
+	if (data->img.empty)
+		mlx_destroy_image(data->mlx_ptr, data->img.empty);
+	if (data->img.exit)
+		mlx_destroy_image(data->mlx_ptr, data->img.exit);
+	if (data->img.collectable)
+		mlx_destroy_image(data->mlx_ptr, data->img.collectable);
 	mlx_destroy_window(data->mlx_ptr, data->win_ptr);
 	free(data->mlx_ptr);
 	exit(0);
@@ -48,12 +53,16 @@ int	close_window(t_data *data)
 
 void	display_message(char **storage, int value)
 {
+	if (value == -2)
+		ft_putstr("Error\ninvalid content at the end!");
+	if (value == -1)
+		ft_putstr("Error\nfile is empty or invalid content at the beginning!");
 	if (value == 0)
 		ft_putstr("Error\ninvalid file!");
 	else if (value == 1)
 		ft_putstr("Error\nfilename is not valid!");
 	else if (value == 2)
-		ft_putstr("Error\nfile does not exist!");
+		ft_putstr("Error\nfile is not found!");
 	else if (value == 3)
 		ft_putstr("Error\nplayer or/and exit are dublicated!");
 	else if (value == 4)
