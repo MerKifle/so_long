@@ -6,7 +6,7 @@
 #    By: mkiflema <mkiflema@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/03/24 12:50:21 by mkiflema          #+#    #+#              #
-#    Updated: 2023/04/20 20:21:42 by mkiflema         ###   ########.fr        #
+#    Updated: 2023/04/22 13:35:26 by mkiflema         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -34,5 +34,8 @@ clean:
 fclean: clean
 	cd ./libft && make fclean
 	$(RM) $(Name)
+
+norm: 
+	norminette *.h *.c ./libft/*.c ./libft/*.h
 
 re: fclean 	all

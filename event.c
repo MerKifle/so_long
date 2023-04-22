@@ -6,7 +6,7 @@
 /*   By: mkiflema <mkiflema@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/07 15:50:09 by mkiflema          #+#    #+#             */
-/*   Updated: 2023/04/20 20:20:40 by mkiflema         ###   ########.fr       */
+/*   Updated: 2023/04/22 18:37:09 by mkiflema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ static void	change_pos(t_data *data, int y, int x)
 
 int	handle_keypress(int keysym, t_data *data)
 {
-	if (keysym == 53)
+	if (keysym == 53 || keysym == 12)
 		clear_and_close(data);
 	else if (keysym == 123 || keysym == 0)
 		change_pos(data, data->player_y, data->player_x - 1);

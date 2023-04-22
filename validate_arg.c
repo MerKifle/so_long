@@ -6,7 +6,7 @@
 /*   By: mkiflema <mkiflema@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/29 09:57:31 by mkiflema          #+#    #+#             */
-/*   Updated: 2023/04/20 20:13:55 by mkiflema         ###   ########.fr       */
+/*   Updated: 2023/04/22 18:29:50 by mkiflema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ static void	check_start_and_exit(char **storage, int start, int exit, int colle)
 	while ((*storage)[i])
 		i++;
 	if ((*storage)[i - 1] == '\n')
-		display_message(storage, -2);
+		display_message(storage, -1);
 }
 
 void	validate_map_content(int fd, char **storage, char *line)
@@ -112,6 +112,8 @@ int	is_name_valid(char *pathname)
 {
 	int	i;
 
+	if (pathname[0] == '.')
+		pathname++;
 	while (*pathname && *pathname != '.')
 		pathname++;
 	i = ft_strlen(pathname);

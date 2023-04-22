@@ -6,7 +6,7 @@
 /*   By: mkiflema <mkiflema@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/24 12:27:56 by mkiflema          #+#    #+#             */
-/*   Updated: 2023/04/20 20:19:52 by mkiflema         ###   ########.fr       */
+/*   Updated: 2023/04/22 14:00:21 by mkiflema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ static void	create_images(t_data *data)
 	if (data->img.wall == NULL || data->img.empty == NULL || data->img.player
 		== NULL || data->img.collectable == NULL || data->img.exit == NULL)
 	{
-		ft_printf("either one or all of the textures are not exist!");
+		ft_printf("Error\nthe texture(s) is(are) invalid/not found!");
 		clear_and_close(data);
 	}
 }
