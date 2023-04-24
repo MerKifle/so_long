@@ -6,7 +6,7 @@
 /*   By: mkiflema <mkiflema@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/29 10:15:50 by mkiflema          #+#    #+#             */
-/*   Updated: 2023/04/20 20:20:07 by mkiflema         ###   ########.fr       */
+/*   Updated: 2023/04/22 18:50:59 by mkiflema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,12 +33,9 @@ void	push_image(t_data *data, char c, int y, int x)
 
 void	render(t_data *data)
 {
-	char	*file_path;
 	int		x;
 	int		y;
 
-	file_path = NULL;
-	(void)file_path;
 	if (data->win_ptr == NULL)
 		return ;
 	y = -1;

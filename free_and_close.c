@@ -6,7 +6,7 @@
 /*   By: mkiflema <mkiflema@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/17 18:25:07 by mkiflema          #+#    #+#             */
-/*   Updated: 2023/04/22 13:54:01 by mkiflema         ###   ########.fr       */
+/*   Updated: 2023/04/22 20:20:32 by mkiflema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,5 +75,5 @@ void	display_message(char **storage, int value)
 		ft_putstr("Error\npath is not valid!");
 	if (*storage)
 		free(*storage);
-	exit(0);
+	exit(1);
 }
